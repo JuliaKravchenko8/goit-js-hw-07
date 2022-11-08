@@ -29,20 +29,23 @@ function imageClick(event) {
   if (event.target.nodeName !== 'IMG') {
     return;
   }
+  createModal(event.target).show();
+}
 
-  const instance = basicLightbox.create(
-    `
-<img src="${event.target.dataset.source}">`
-  );
-
-  instance.show();
-
-  galleryEl.addEventListener('keydown', onKeyClose);
+function createModal(event) {
+  const html = `<img src="${event.dataset.source}">`;
+  let instance = basicLightbox.create(html, {
+    onShow: () => {
+      window.addEventListener('keydown', onKeyClose);
+    },
+    onClose: () => {
+      window.removeEventListener('keydown', onKeyClose);
+    },
+  });
+  return instance;
 
   function onKeyClose(event) {
-    if (event.code === 'Escape') {
-      instance.close();
-      galleryEl.removeEventListener('keydown', onKeyClose);
-    }
+    if (event.code !== 'Escape') return;
+    instance.close();
   }
 }
