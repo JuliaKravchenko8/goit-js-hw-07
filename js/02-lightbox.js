@@ -14,8 +14,8 @@ const imagesEl = galleryItems
 
 galleryEl.insertAdjacentHTML('afterbegin', imagesEl);
 
-let gallery = new SimpleLightbox('.gallery a');
-gallery.on('show.simplelightbox', {
+let lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
+  captionPosition: 'bottom',
   captionDelay: 250,
 });
